@@ -2,42 +2,42 @@
 
 # ==============================================================================
 # Script: launch-webkit.sh
-# Descrição: Verifica a instalação do WebKit no Playwright e inicia uma 
-#            aba em branco (about:blank) para inspeção e testes no Ubuntu.
+# Description: Checks for WebKit installation via Playwright and opens a 
+#              blank tab (about:blank) for inspection and testing on Ubuntu.
 # ==============================================================================
 
 set -e
 
-# 1. Validação do ambiente Node/npx
+# 1. Node/npx environment validation
 if ! command -v npx &> /dev/null; then
-    echo "[ERRO] 'npx' não foi encontrado. Certifique-se de que o Node.js e o npm estão instalados." >&2
+    echo "[ERROR] 'npx' was not found. Please ensure Node.js and npm are installed." >&2
     exit 1
 fi
 
 PLAYWRIGHT_CACHE="${HOME}/.cache/ms-playwright"
 WEBKIT_INSTALLED=false
 
-# 2. Verificação se o WebKit já existe no cache do sistema
+# 2. Check if WebKit already exists in the system cache
 if [ -d "$PLAYWRIGHT_CACHE" ]; then
     if ls -d "${PLAYWRIGHT_CACHE}"/webkit-* &> /dev/null; then
         WEBKIT_INSTALLED=true
     fi
 fi
 
-# 3. Instalação sob demanda (apenas se ausente)
+# 3. On-demand installation (only if missing)
 if [ "$WEBKIT_INSTALLED" = true ]; then
-    echo "[OK] Playwright WebKit já instalado em ${PLAYWRIGHT_CACHE}. Pulando download..."
+    echo "[OK] Playwright WebKit is already installed at ${PLAYWRIGHT_CACHE}. Skipping download..."
 else
-    echo "[INFO] WebKit não encontrado. Baixando binários via Playwright..."
+    echo "[INFO] WebKit not found. Downloading binaries via Playwright..."
     npx -y playwright install webkit
 
-    echo "[INFO] Verificando dependências de sistema operacional..."
+    echo "[INFO] Checking OS dependencies..."
     if ! npx -y playwright install-deps webkit 2>/dev/null; then
-        echo "[AVISO] Não foi possível verificar dependências nativas automaticamente sem privilégios sudo."
-        echo "        Se a janela não abrir, execute uma vez: sudo npx playwright install-deps webkit"
+        echo "[WARNING] Could not automatically verify native dependencies without sudo privileges."
+        echo "          If the window fails to open, run this once: sudo npx playwright install-deps webkit"
     fi
 fi
 
-# 4. Execução com aba em branco
-echo "[INFO] Abrindo Playwright WebKit..."
+# 4. Execute with a blank tab
+echo "[INFO] Opening Playwright WebKit..."
 npx -y playwright open --browser=webkit about:blank

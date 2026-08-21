@@ -1,3 +1,57 @@
+# WebKit Debug Launcher for Ubuntu 🐧🌐
+
+[ 🇧🇷 Ler em Português ](#pt-br)
+
+This repository contains a handy script to solve a classic web development problem on Linux: **how to inspect and debug applications in WebKit (Safari) engines when native browsers (like Epiphany) have broken or unstable DevTools.**
+
+## 🚨 The Problem
+
+During the development and interface adjustments for a platform, I needed to validate the layout specifically for WebKit-engine browsers. On Ubuntu, common alternatives fell short:
+- The **Epiphany** browser runs WebKit natively, but its DevTools proved to be unstable or completely broken.
+- Using **Chrome extensions** (device simulators) doesn't solve it, as they only spoof the *User-Agent* of the request, continuing to use the Blink engine for CSS/JS rendering.
+
+## 💡 The Solution
+
+This script (`launch-webkit.sh`) uses **Playwright**'s infrastructure to download the most stable version of the WebKit engine for Linux and opens a clean instance (`about:blank`) with 100% fully functional DevTools.
+
+The script is designed to be efficient: it first checks if the engine is already in the local system cache, avoiding repeated downloads, and automatically installs it only on demand.
+
+## 🛠️ Prerequisites
+
+For the script to work, you need to have the Node.js package manager installed on your system:
+- [Node.js](https://nodejs.org/) (version that includes `npm` and `npx`)
+
+## 🚀 How to use
+
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/Danyel492/launch-webkit.git
+   ```
+   or download the `launch-webkit.sh` file.
+
+2. Give execution permission to the file:
+   ```bash
+   chmod +x launch-webkit.sh
+   ```
+3. Run the script:
+   ```bash
+   ./launch-webkit.sh
+   ```
+
+> **Note:** A blank WebKit engine window will open. From there, simply type your target URL and inspect elements freely.
+
+## 📌 Productivity Tip
+
+If you frequently test in WebKit, add a global shortcut (alias) in your terminal configuration file (`~/.bashrc` or `~/.zshrc`) to call the script from any directory:
+
+```bash
+alias webkit-debug="/absolute/path/to/launch-webkit.sh"
+```
+
+---
+<a id="pt-br"></a>
+# 🇧🇷 Português (Brasil)
+
 # WebKit Debug Launcher para Ubuntu 🐧🌐
 
 Este repositório contém um script prático para resolver um problema clássico de desenvolvimento web no Linux: **como inspecionar e debugar aplicações em motores WebKit (Safari) quando os navegadores nativos (como o Epiphany) apresentam DevTools quebrado ou instável.**
@@ -21,7 +75,11 @@ Para que o script funcione, é necessário ter o gerenciador de pacotes do Node.
 
 ## 🚀 Como usar
 
-1. Clone este repositório ou baixe o arquivo `launch-webkit.sh`.
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/Danyel492/launch-webkit.git
+   ```
+   ou baixe o arquivo `launch-webkit.sh`.
 2. Dê permissão de execução ao arquivo:
    ```bash
    chmod +x launch-webkit.sh
